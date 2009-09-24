@@ -1,10 +1,5 @@
 require 'digest/sha1'
 
-Name = 'Lekstuga'
-Key = '37Ervct1G7tLatJmje5s0S9YVlzfcxW6Dr19MHmh'
-
-
-
 require 'rubygems'
 require 'httparty'
 
@@ -14,13 +9,16 @@ class Booli
   base_uri 'api.booli.se'
   default_params :format => 'json'
   
+  @@appname = ""
+  @@appkey = ""
+  
   def self.default_options
-    callerId = Name
+    callerId = @@appname
     time = Time.new.strftime('%Y-%m-%dT%H:%M:%S%z')
-    key = Key
+    key = @@appkey
     unique = "%.16x"%rand(9**20)
     auth = {
-      :callerId=> Name,
+      :callerId=> @@appname,
       :hash=>Digest::SHA1.hexdigest(callerId + time + key + unique),
       :time=>time,
       :unique=>unique
@@ -86,9 +84,27 @@ class Booli
     fetch()['booli']['content']['listings'].each { |r| yield r }
   end
   
+  def self.find
+    Booli.new
+  end
+  
+  def self.appname=r
+    @@appname = r
+  end
+  
+  def self.appkey=r
+    @@appkey=r
+  end
+  
 end
 
-Booli.new.type('lägenhet').price('5000-10000').near('Askersund').each do |a|
+Name = 'Lekstuga'
+Key = '37Ervct1G7tLatJmje5s0S9YVlzfcxW6Dr19MHmh'
+
+Booli.appname = Name
+Booli.appkey = Key
+
+Booli.find.geo(59.331176, 18.059978, 20).each do |a|
   p a
 end
 #puts Booli.default_options.inspect

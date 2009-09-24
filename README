@@ -1,0 +1,15 @@
+Requirements
+-----
+
+* gem install httparty
+
+Get an appkey from http://www.booli.se/api/
+
+Examples
+----
+Booli.appname = "Lekstuga"
+Booli.apikey = 'myappkey'
+require 'booli'
+Booli.find.type('lägenhet').price('5000-10000').near('Askersund').each do |a|
+  p a
+end
