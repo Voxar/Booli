@@ -97,14 +97,3 @@ class Booli
   end
   
 end
-
-Name = 'Lekstuga'
-Key = '37Ervct1G7tLatJmje5s0S9YVlzfcxW6Dr19MHmh'
-
-Booli.appname = Name
-Booli.appkey = Key
-
-Booli.find.geo(59.331176, 18.059978, 20).each do |a|
-  p a
-end
-#puts Booli.default_options.inspect
